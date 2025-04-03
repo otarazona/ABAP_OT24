@@ -8,6 +8,8 @@
     dataClass: #MIXED
 }
 define view entity ZCDS_AVIATION_AGR02
+  with parameters
+    pId : abap.int1
   as select from zavi_parent_ag02
   association [0..*] to ZCDS_AVIATION_AGR02 as _AVIATION on $projection.ParentId = _AVIATION.Id
 {
@@ -16,3 +18,7 @@ define view entity ZCDS_AVIATION_AGR02
       aviation_name as AviationName,
       _AVIATION
 }
+
+where 
+
+parent_id = $parameters.pId;

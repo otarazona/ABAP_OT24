@@ -30,19 +30,20 @@ CLASS zcl_cdshierarchy_agr02 IMPLEMENTATION.
 
     IF sy-subrc = 0.
 
-      out->write( lt_tree_parent ).
+*      out->write( lt_tree_parent ).
 
     ENDIF.
 
     DATA lc_var TYPE i VALUE 1.
-      TRY.
-        SELECT FROM HIERARCHY( SOURCE zahr_cds_aviation( pId = @lc_var )
+    TRY.
+        SELECT FROM HIERARCHY( SOURCE zcds_aviation_agr02( pid = @lc_var  )
          CHILD TO PARENT ASSOCIATION _Aviation
          START WHERE id = 1
       SIBLINGS ORDER BY id ASCENDING
-         DEPTH 2
-      MULTIPLE PARENTS ALLOWED
-        CYCLES BREAKUP )
+*         DEPTH 2 " Define niveles de jerarquías, profundidad
+      MULTIPLE PARENTS ALLOWED " multiples nodos padres
+      ORPHANS ROOT " Nodos Huérfanos
+        CYCLES BREAKUP ) " Realiza el salto de una excepción y continua con los demás nodos
         FIELDS Id,
                ParentId,
                AviationName
@@ -50,14 +51,42 @@ CLASS zcl_cdshierarchy_agr02 IMPLEMENTATION.
 
 
         IF lt_result IS NOT INITIAL.
-          out->write( lt_result ).
+*          out->write( lt_result ).
         ENDIF.
 
       CATCH cx_sy_open_sql_db INTO DATA(lx_sql_db).
         out->write( lx_sql_db->get_text( ) ).
     ENDTRY.
 
+****Path Expression - Asociations
 
+SELECT from /DMO/I_FLIGHT
+FIELDS AirlineID,
+       ConnectionID,
+       FlightDate,
+       \_Airline-Name as name1,
+       \_Airline[ CurrencyCode = 'EUR' ]-Name AS airlineNameEUR,
+       \_Airline\_Currency-CurrencyISOCode,
+       \_Airline\_Currency\_Text[ Language = 'E' and Currency = 'EUR' ]-CurrencyShortName
+       ORDER BY FlightDate DESCENDING
+       INTO TABLE @DATA(LT_FLIGHT).
+
+  IF sy-subrc = 0.
+
+*      out->write( lt_flight ).
+
+    ENDIF.
+
+*** CDS con parámetros
+
+ SELECT FROM zcds_aviation_agr02( pId = @lc_var )
+    FIELDS *
+      INTO TABLE @DATA(lt_results).
+IF sy-subrc = 0.
+
+      out->write( lt_results ).
+
+    ENDIF.
 
   ENDMETHOD.
 
