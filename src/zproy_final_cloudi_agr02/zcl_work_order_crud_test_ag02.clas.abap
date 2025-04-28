@@ -46,9 +46,9 @@ ENDMETHOD.
     ENDIF.
 
  DATA(lv_success) = mo_handler->create_work_order(
-      iv_word_order_id   = '0000000001'
-      iv_customer_id     = '10000001'
-      iv_technician_id   = 'T0000001'
+      iv_word_order_id   = '0000000002'
+      iv_customer_id     = '10000002'
+      iv_technician_id   = 'T0000003'
       iv_priority        = 'A'
       iv_status          = 'PE'
       iv_description     = 'Revisión de sistema eléctrico'
