@@ -3,9 +3,9 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_DEPARTMENT_CODE_AGR02</CLSNAME>
+    <CLSNAME>ZCL_INSERT_DATA_CUST_TECN_AG02</CLSNAME>
     <LANGU>E</LANGU>
-    <DESCRIPT>Código de departamento Agr02</DESCRIPT>
+    <DESCRIPT>Insersión de datos de cliente, Tecnicos,Status,Prioridad</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>

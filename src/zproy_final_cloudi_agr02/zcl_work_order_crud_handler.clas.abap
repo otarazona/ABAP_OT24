@@ -5,6 +5,8 @@ CLASS zcl_work_order_crud_handler DEFINITION
 
   PUBLIC SECTION.
 
+  INTERFACES if_oo_adt_classrun .
+
     METHODS:
       create_Work_order IMPORTING iv_word_order_id TYPE zwork_order_id_agr02
                                   iv_customer_id   TYPE string
@@ -44,6 +46,7 @@ CLASS zcl_work_order_crud_handler DEFINITION
   PROTECTED SECTION.
 
 
+
   PRIVATE SECTION.
 
   DATA: mo_validator TYPE REF TO zcl_work_order_validator_agr02.
@@ -53,6 +56,14 @@ ENDCLASS.
 
 
 CLASS zcl_work_order_crud_handler IMPLEMENTATION.
+
+
+  METHOD if_oo_adt_classrun~main.
+
+  ENDMETHOD.
+
+
+
   METHOD create_work_order.
 
     " Validaciones
@@ -74,8 +85,8 @@ CLASS zcl_work_order_crud_handler IMPLEMENTATION.
     DATA(ls_order) = VALUE ZTWORK_ORDER_AG2( zwork_ord_id    = iv_word_order_id
                                              zcust_id        = iv_customer_id
                                              ztech_id        = iv_technician_id
-                                             zcreat_dat      = sy-datum
-                                             zstatus_agr02   = 'PE'
+                                             zcreat_dat      = iv_creation_date "sy-datum
+                                             zstatus_agr02   = iv_status "'PE'
                                              zpriority_agr02 = iv_priority
                                              zdesc_agr02     = iv_description ).
 
@@ -176,5 +187,7 @@ IF mo_validator IS INITIAL.
 
 
   ENDMETHOD.
+
+
 
 ENDCLASS.
