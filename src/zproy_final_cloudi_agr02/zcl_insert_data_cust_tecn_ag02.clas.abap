@@ -24,6 +24,8 @@ CLASS zcl_insert_data_cust_tecn_ag02 IMPLEMENTATION.
 
     DELETE FROM  ztcustomer_agr02.
     DELETE FROM  zttechnician_ag2.
+    DELETE FROM  ztpriority_agr02.
+    DELETE FROM  ztstatus_agr02.
 
 *INSERT zproducts_agr02 FROM TABLE @( VALUE #(
     lt_TCUSTOMER_agr02 = VALUE #( (  client         = sy-mandt

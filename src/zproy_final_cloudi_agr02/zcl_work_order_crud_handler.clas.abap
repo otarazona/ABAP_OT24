@@ -33,6 +33,7 @@ CLASS zcl_work_order_crud_handler DEFINITION
       update_work_order IMPORTING iv_work_order_id  TYPE zwork_order_id_agr02
                                   iv_status         TYPE string
                                   iv_priority       TYPE string
+                                  iv_descrip        TYPE string
 
                         RETURNING VALUE(rv_success) TYPE abap_bool,
 
@@ -126,6 +127,7 @@ CLASS zcl_work_order_crud_handler IMPLEMENTATION.
   DATA(lv_valid) = mo_validator->validate_update_order(
     iv_work_order_id = iv_work_order_id
     iv_status        = iv_status
+    iv_descrip      = iv_descrip
   ).
 
   IF lv_valid = abap_false.
@@ -136,7 +138,9 @@ CLASS zcl_work_order_crud_handler IMPLEMENTATION.
   " Actualizar registro
   UPDATE ztwork_order_ag2 SET
     zstatus_agr02   = @iv_status,
-    zpriority_agr02 = @iv_priority
+    zpriority_agr02 = @iv_priority,
+    zdesc_agr02     = @iv_descrip
+
     WHERE zwork_ord_id = @iv_work_order_id.
 
   IF sy-subrc = 0.

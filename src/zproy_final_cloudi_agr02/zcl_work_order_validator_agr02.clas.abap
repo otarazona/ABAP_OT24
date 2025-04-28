@@ -15,6 +15,7 @@ CLASS zcl_work_order_validator_agr02 DEFINITION
 
       validate_update_order IMPORTING iv_work_order_id TYPE zwork_order_id_agr02
                                       iv_status        TYPE string
+                                      iv_descrip       TYPE string
                             RETURNING VALUE(rv_valid)  TYPE abap_bool,
 
       validate_delete_order IMPORTING iv_work_order_id TYPE zwork_order_id_agr02
