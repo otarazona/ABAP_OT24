@@ -137,13 +137,24 @@ CLASS zcl_work_order_crud_handler IMPLEMENTATION.
 
   " Actualizar registro
   UPDATE ztwork_order_ag2 SET
-    zstatus_agr02   = @iv_status,
-    zpriority_agr02 = @iv_priority,
-    zdesc_agr02     = @iv_descrip
+         zstatus_agr02   = @iv_status,
+         zpriority_agr02 = @iv_priority,
+         zdesc_agr02     = @iv_descrip
 
     WHERE zwork_ord_id = @iv_work_order_id.
 
   IF sy-subrc = 0.
+
+   " Insertar en historial
+    DATA(ls_hist) = VALUE ZTWORK_ORD_HIST(
+      zhist_id_agr02     = |{ cl_abap_context_info=>get_system_date( ) }{ cl_abap_tstmp=>get_system_timezone( ) }|  " Fecha + hora como ID
+      zwork_ord_id       = iv_work_order_id
+      zmodif_date_agr02  = cl_abap_context_info=>get_system_date( )
+      zchange_desc_agr02 = |Actualización de estado a { iv_status } y prioridad a { iv_priority }| ).
+
+    INSERT ZTWORK_ORD_HIST FROM @ls_hist.
+
+
     rv_success = abap_true.
   ELSE.
     rv_success = abap_false.

@@ -46,13 +46,13 @@ CLASS zcl_work_order_crud_test_ag02 IMPLEMENTATION.
     ENDIF.
 
     DATA(lv_success) = mo_handler->create_work_order(
-         iv_word_order_id   = '0000000004'
-         iv_customer_id     = '10000003'
-         iv_technician_id   = 'T0000004'
+         iv_word_order_id   = '0000000002'
+         iv_customer_id     = '10000005'
+         iv_technician_id   = 'T0000002'
          iv_priority        = 'A'
          iv_status          = 'PE'
-         iv_description     = 'Remodelación oficinas'
-         iv_creation_date   = sy-datum ).
+         iv_description     = 'Reparación estructura metálica'
+         iv_creation_date   = cl_abap_context_info=>get_system_date( ) ). " sy-datum ).
 
     IF  sy-subrc = 0. "lv_success = abap_true.
       io_out->write( '✅ Orden creada correctamente.' ).
@@ -71,7 +71,7 @@ CLASS zcl_work_order_crud_test_ag02 IMPLEMENTATION.
       CREATE OBJECT mo_handler.
     ENDIF.
 
-    DATA(ls_order) = mo_handler->read_work_order( '0000000003' ).
+    DATA(ls_order) = mo_handler->read_work_order( '0000000004' ).
 
     IF ls_order-zwork_ord_id IS NOT INITIAL.
       io_out->write( |✅ Orden leída: { ls_order-zdesc_agr02 } | ).
@@ -90,10 +90,10 @@ CLASS zcl_work_order_crud_test_ag02 IMPLEMENTATION.
     ENDIF.
 
     DATA(lv_success) = mo_handler->update_work_order(
-      iv_work_order_id = '0000000004'
+      iv_work_order_id = '0000000002'
       iv_status        = 'CO'
       iv_priority      = 'B'
-      iv_descrip       = 'Remodelación oficinas ' ).
+      iv_descrip       = 'Reparación estructura metálica Ajuste ' ).
 
     IF lv_success = abap_true.
       io_out->write( '✅ Orden actualizada.' ).
@@ -110,7 +110,7 @@ CLASS zcl_work_order_crud_test_ag02 IMPLEMENTATION.
       CREATE OBJECT mo_handler.
     ENDIF.
 
-    DATA(lv_success) = mo_handler->delete_work_order( '0000000002' ).
+    DATA(lv_success) = mo_handler->delete_work_order( '0000000005' ).
 
     IF lv_success = abap_true.
       io_out->write( '✅ Orden eliminada.' ).
